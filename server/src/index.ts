@@ -31,9 +31,13 @@ mongoose
   .connect(process.env.MONGODB_URI!)
   .then(() => {
     console.log('Connected to MongoDB');
-    app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+    // Only listen in non-Vercel environments
+    if (process.env.NODE_ENV !== 'production') {
+      app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+    }
   })
   .catch((err: Error) => {
     console.error('MongoDB connection error:', err.message);
-    process.exit(1);
   });
+
+export default app;
